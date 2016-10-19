@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./Template/template.xhtml">
+
+            <ui:define name="menu">
+
+                <ul class="mainnav">
+                    <li  class="active">
+                        <h:link outcome="Dashboard">
+                            <i class="fa fa-home"></i><span>Dashboard</span>                                 
+                        </h:link>
+                    </li>
+                    <li >
+                        <h:link outcome="Empresa">
+                            <i class="fa fa-building"></i><span>Empresas</span> 
+                        </h:link>
+                    </li> 
+                    <li class="dropdown" id="abrir-menu" >
+                        <a href=""  data-toggle="dropdown"> 
+                            <i class="fa fa-user"></i><span>Usuarios</span> <b class="caret"></b>                                
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:link outcome="Usuario">
+                                    <span>Carga Manual</span> 
+                                </h:link>
+                            </li>
+
+                            <li>
+                                <h:link outcome="Usuarios_Masiva">
+                                    <span>Carga Masiva</span> 
+                                </h:link>
+                            </li>
+
+                        </ul>
+                    </li>         
+
+                    <li class="dropdown" id="abrir-menu" >
+                        <a href=""  data-toggle="dropdown"> 
+                            <i class="fa fa-file-archive-o"></i><span>Inventario</span> <b class="caret"></b>                                
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:link outcome="Inventario">
+                                    <span>Carga Manual</span> 
+                                </h:link>
+                            </li>
+
+                            <li>
+                                <h:link outcome="Inventario_Masiva">
+                                    <span>Carga Masiva</span> 
+                                </h:link>
+                            </li>
+
+                        </ul>
+                    </li>   
+
+                    <li class="dropdown" id="abrir-menu" >
+                        <a href=""  data-toggle="dropdown"> 
+                            <i class="fa fa-group"></i><span>Comite</span> <b class="caret"></b>                                
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:link outcome="Comite">
+                                    <span>Crear Comite</span> 
+                                </h:link>
+                            </li>
+
+                            <li>
+                                <h:link outcome="Comites">
+                                    <span>Consultar Comite</span> 
+                                </h:link>
+                            </li>
+                        </ul>
+                    </li> 
+                </ul>
+            </ui:define>
+
+            <ui:define name="content">
+
+                <div class="main">
+                    <div class="main-inner">
+                        <b:container fluid="true">
+                            <h:form id="formularioLista" enctype="multipart/form-data">
+
+
+                                <b:row>
+
+                                    <b:column col-lg="12" >
+
+                                        <div class="widget " >
+                                            <div class="widget-header"> <i class="fa fa-list-alt"></i>
+                                                <h3> Los Articulos Mas Votados (Seleccione los articulos que estaran para la siguiente fase) </h3>
+                                            </div>
+
+                                            <!-- /widget-header -->
+                                            <div class="widget-content">
+                                                <b:column col-lg="10" >
+                                                    <div class="form-group">
+
+                                                        <h:selectOneMenu id="inputEmpresa" class="form-control "  value="#{jugueteCT.empresa.idEmpresa}" >
+                                                            <f:selectItem itemLabel="Seleccione empresa" itemValue="0"/>
+                                                            <f:selectItems value="#{empresaCT.empresas}" var="emp" itemLabel="#{emp.nombre}" itemValue="#{emp.idEmpresa}"/>
+                                                        </h:selectOneMenu>
+                                                        <p:message for="inputEmpresa" ></p:message>
+                                                    </div>  
+
+                                                </b:column>
+                                                <b:column col-lg="1">
+                                                    <div align="right">
+                                                        <h:panelGrid columns="1" style="margin-bottom: 20px;">
+                                                            <p:commandButton action="#{jugueteCT.consultarJuguetesMasVotadosVerificacion(jugueteCT.empresa.idEmpresa)}"
+                                                                             ajax="true"         update=" :formularioLista" class=" btn btn-info" value="Aceptar" />
+                                                        </h:panelGrid>
+                                                    </div>
+                                                </b:column>
+                                                <div class="widget big-stats-container">
+                                                    <div class="widget-content">
+
+
+                                                        <p:dataTable id="tbl" var="inv" value="#{jugueteCT.inventariosMasVotadosVerificacion}"
+                                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                                                     paginator="true" rows="30" style="margin-bottom:20px">
+
+                                                            <p:column width="10%">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Calificación" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.sumatoria}" />
+                                                            </p:column>
+                                                            <p:column width="10%">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Codigo" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.codigo}" />
+                                                            </p:column>
+
+                                                            <p:column width="30%">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Nombre"/>
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.nombre}" />
+                                                            </p:column>
+
+                                                            <p:column width="10%">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Genero" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.genero}" />
+                                                            </p:column>
+
+                                                            <p:column>
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Descripcion" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.descripcion}" />
+                                                            </p:column>
+                                                            <p:column style="width: 70px" headerText="Eliminar">
+                                                                <p:commandLink style="color: white; width: 100%" ajax="false" action="#{jugueteCT.editarStatusInventario(inv.idInventario)}"   update=":formularioLista" title="Eliminar"  class="btn btn-block btn-danger">
+                                                                    <p:confirm header="Confirmación" message="¿Desea eliminar este Artículo?" icon="ui-icon-alert" />
+                                                                    <i class="fa fa-trash"/>                                                     
+                                                                </p:commandLink>
+                                                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                                </p:confirmDialog>
+                                                            </p:column>
+
+                                                        </p:dataTable>
+
+                                                    </div>
+                                                    <!-- /widget-content --> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </b:column>
+
+                                    <b:column col-lg="12" >
+
+                                        <div class="widget " >
+                                            <div class="widget-header"> <i class="fa fa-list-alt"></i>
+                                                <h3> Los Articulos Sin Votación (Seleccione los articulos que estaran para la siguiente fase) </h3>
+                                            </div>
+
+                                            <!-- /widget-header -->
+                                            <div class="widget-content">
+                                                <div class="widget big-stats-container">
+                                                    <div class="widget-content">
+
+
+                                                        <p:dataTable id="tbl2" var="inv" value="#{jugueteCT.inventariosSinVotacionVerificacion}"
+                                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                                                     paginator="true" rows="30" style="margin-bottom:20px">
+
+                                                            <p:column width="10%">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Codigo" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.codigo}" />
+                                                            </p:column>
+
+                                                            <p:column width="30%">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Nombre"/>
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.nombre}" />
+                                                            </p:column>
+
+                                                            <p:column width="10%">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Genero" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.genero}" />
+                                                            </p:column>
+
+                                                            <p:column>
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Descripcion" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.descripcion}" />
+                                                            </p:column>
+                                                            <p:column style="width: 70px" headerText="Eliminar">
+                                                                <p:commandLink style="color: white; width: 100%" ajax="false" action="#{jugueteCT.editarStatusInventario(inv.idInventario)}"   update=":formularioLista" title="Eliminar"  class="btn btn-block btn-danger">
+                                                                    <p:confirm header="Confirmación" message="¿Desea eliminar este Artículo?" icon="ui-icon-alert" />
+                                                                    <i class="fa fa-trash"/>                                                     
+                                                                </p:commandLink>
+                                                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                                </p:confirmDialog>
+                                                            </p:column>
+
+                                                        </p:dataTable>
+
+                                                    </div>
+                                                    <!-- /widget-content --> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </b:column>
+
+                                </b:row>
+
+                            </h:form>
+                        </b:container>
+                    </div>
+                </div>  
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

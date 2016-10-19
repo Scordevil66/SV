@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./Template/template.xhtml">
+
+            <ui:define name="menu">
+
+                <ul class="mainnav">
+                    <li >
+                        <h:link outcome="Dashboard">
+                            <i class="fa fa-home"></i><span>Dashboard</span>                                 
+                        </h:link>
+                    </li>
+                    <li >
+                        <h:link outcome="Empresa">
+                            <i class="fa fa-building"></i><span>Empresas</span> 
+                        </h:link>
+                    </li> 
+                    <li class="dropdown" id="abrir-menu" >
+                        <a href=""  data-toggle="dropdown"> 
+                            <i class="fa fa-user"></i><span>Usuarios</span> <b class="caret"></b>                                
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:link outcome="Usuario">
+                                    <span>Carga Manual</span> 
+                                </h:link>
+                            </li>
+
+                            <li>
+                                <h:link outcome="Usuarios_Masiva">
+                                    <span>Carga Masiva</span> 
+                                </h:link>
+                            </li>
+
+                        </ul>
+                    </li>         
+
+                    <li class="dropdown " id="abrir-menu" >
+                        <a href=""  data-toggle="dropdown"> 
+                            <i class="fa fa-file-archive-o"></i><span>Inventario</span> <b class="caret"></b>                                
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:link outcome="Inventario">
+                                    <span>Carga Manual</span> 
+                                </h:link>
+                            </li>
+                            <c:if test="${usuarioCT.idTipoUsuario == 1 || usuarioCT.idTipoUsuario == 2}">
+                                <li>
+                                    <h:link outcome="Inventario_Masiva">
+                                        <span>Carga Masiva</span> 
+                                    </h:link>
+                                </li>
+                            </c:if>
+                        </ul>
+                    </li>   
+
+                    <li class="dropdown active" id="abrir-menu" >
+                        <a href=""  data-toggle="dropdown"> 
+                            <i class="fa fa-group"></i><span>Comite</span> <b class="caret"></b>                                
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:link outcome="Comite">
+                                    <span>Crear Comite</span> 
+                                </h:link>
+                            </li>
+
+                            <li>
+                                <h:link outcome="Comites">
+                                    <span>Consultar Comite</span> 
+                                </h:link>
+                            </li>
+                        </ul>
+                    </li> 
+                </ul>
+
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="main">
+                    <div class="main-inner">
+
+                        <b:container fluid="true">
+                            <center>
+                                <div style="margin-bottom: 30px">
+                                    <h2> Comites -<small> Consultar de Comite.</small> </h2>
+                                </div>
+
+                            </center>
+                            <b:row>
+                                <b:column col-lg="12" >
+                                    <h:form id="formularioLista">
+                                        <div class="widget ">
+                                            <div class="widget-header"> <i class="fa fa-list-alt"></i>
+                                                <h3> Listado de Comite</h3>
+                                            </div>
+                                            <!-- /widget-header -->
+                                            <div class="widget-content">
+                                                <div class="widget big-stats-container">
+                                                    <div class="widget-content">
+                                                        <h:form id="formularioLista">
+                                                            <!--                                                            <div class="form-group">
+                                                                                                                            <label for="inputComite" class="col-sm-4 control-label">Nombre Empresa: </label>
+                                                                                                                            <h:selectOneMenu id="inputComite" class="form-control "  style="width: 66.6666666% !important;"  value="" >
+                                                                                                                                <p:ajax event="change" listener="" update="DTComite"/>
+                                                                                                                                <f:selectItem itemLabel="Seleccione empresa" itemValue="0"/>
+                                                                                                                                <f:selectItem itemLabel="Todos" itemValue="0"/>
+                                                                                                                                <f:selectItems value="" var="emp" itemLabel="" itemValue=""/>
+                                                                                                                            </h:selectOneMenu>
+                                                                                                                            <p:message for="inputComite" ></p:message>
+                                                                                                                        </div>  -->
+                                                            <p:dataTable id="DTComite" value="#{comiteCT.comites}" var="com" rows="10"
+                                                                         paginator="true"
+                                                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                         rowsPerPageTemplate="5,10,15" emptyMessage="Juguetes no registrados">
+                                                                <p:column headerText="Codigo">
+                                                                    <h:outputLabel value="#{com.idComite}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Nombre">
+                                                                    <h:outputLabel value="#{com.nombre}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Descripcion">
+                                                                    <h:outputLabel value="#{com.descripcion}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fecha Apertura">
+                                                                    <h:outputLabel value="#{com.fechaAperturaString}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fecha Cierre">
+                                                                    <h:outputLabel value="#{com.fechaCierreString}"/>
+                                                                </p:column>  
+                                                                <p:column headerText="Empresas">
+                                                                    <h:outputLabel value="#{com.idEmpresa.nombre}"/>
+                                                                </p:column>  
+                                                            </p:dataTable>
+                                                        </h:form>
+                                                    </div>
+                                                    <!-- /widget-content --> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </b:column>
+
+
+                            </b:row>
+                            <!-- /row --> 
+                            <!-- /container --> 
+                        </b:container>
+
+                    </div>
+                    <!-- /main-inner --> 
+                </div>
+                <!-- /main -->    
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

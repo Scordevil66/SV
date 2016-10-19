@@ -1,0 +1,584 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./Template/template.xhtml">
+
+            <ui:define name="menu">
+
+                <ul class="mainnav">
+                    <li  class="active">
+                        <h:link outcome="Dashboard">
+                            <i class="fa fa-home"></i><span>Dashboard</span>                                 
+                        </h:link>
+                    </li>
+                    <li >
+                        <h:link outcome="Empresa">
+                            <i class="fa fa-building"></i><span>Empresas</span> 
+                        </h:link>
+                    </li> 
+                    <li class="dropdown" id="abrir-menu" >
+                        <a href=""  data-toggle="dropdown"> 
+                            <i class="fa fa-user"></i><span>Usuarios</span> <b class="caret"></b>                                
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:link outcome="Usuario">
+                                    <span>Carga Manual</span> 
+                                </h:link>
+                            </li>
+
+                            <li>
+                                <h:link outcome="Usuarios_Masiva">
+                                    <span>Carga Masiva</span> 
+                                </h:link>
+                            </li>
+
+                        </ul>
+                    </li>         
+
+                    <li class="dropdown" id="abrir-menu" >
+                        <a href=""  data-toggle="dropdown"> 
+                            <i class="fa fa-file-archive-o"></i><span>Inventario</span> <b class="caret"></b>                                
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:link outcome="Inventario">
+                                    <span>Carga Manual</span> 
+                                </h:link>
+                            </li>
+
+                            <li>
+                                <h:link outcome="Inventario_Masiva">
+                                    <span>Carga Masiva</span> 
+                                </h:link>
+                            </li>
+
+                        </ul>
+                    </li>   
+
+                    <li class="dropdown" id="abrir-menu" >
+                        <a href=""  data-toggle="dropdown"> 
+                            <i class="fa fa-group"></i><span>Comite</span> <b class="caret"></b>                                
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:link outcome="Comite">
+                                    <span>Crear Comite</span> 
+                                </h:link>
+                            </li>
+
+                            <li>
+                                <h:link outcome="Comites">
+                                    <span>Consultar Comite</span> 
+                                </h:link>
+                            </li>
+                        </ul>
+                    </li> 
+                </ul>
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="main">
+                    <div class="main-inner">
+                        <b:container fluid="false" >
+                            <b:row>
+                                <h:form id="filtro">
+                                    <b:column col-lg="5" >
+                                        <div class="form-group">
+
+                                            <c:choose>
+
+                                                <c:when test="${sesionCT.obtenerSesion().idTipoUsuario.idTipoUsuario == 1 || sesionCT.obtenerSesion().idTipoUsuario.idTipoUsuario == 2}">
+
+                                                    <h:selectOneMenu id="inputEmpresa" class="form-control "  value="#{jugueteCT.empresa.idEmpresa}" >
+                                                        <f:selectItem itemLabel="Seleccione empresa" itemValue="0"/>
+                                                        <f:selectItems value="#{empresaCT.empresas}" var="emp" itemLabel="#{emp.nombre}" itemValue="#{emp.idEmpresa}"/>
+                                                    </h:selectOneMenu>
+                                                    <p:message for="inputEmpresa" ></p:message>
+                                                </c:when>
+
+                                                <c:otherwise>
+                                                    <p:inputText class="form-control" id="inputEmpresa" placeholder="Empresa"  value="#{jugueteCT.empresa.nombre}" disabled="true"/>
+                                                    <p:message for="inputEmpresa" ></p:message>
+
+                                                </c:otherwise>
+
+                                            </c:choose>
+                                        </div>  
+
+                                    </b:column>
+                                    <b:column col-lg="5" >
+                                        <div class="form-group">
+
+                                            <h:selectOneMenu id="inputGenero" class="form-control "   value="#{jugueteCT.juguete.genero}" >
+                                                <!--<p:ajax event="change" listener="{usuarioCT.consultarUsuarioPorEmpresasLikeInicio()}" update="user"/>-->
+                                                <f:selectItem itemLabel="Seleccione Genero (Opcional)"  itemValue=""/>
+                                                <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                                <f:selectItem itemLabel="Femenino" itemValue="F"/>
+                                                <f:selectItem itemLabel="Unisex" itemValue="A"/>
+
+                                            </h:selectOneMenu>
+                                            <p:message for="inputEmpresa" ></p:message>
+                                        </div>  
+
+                                    </b:column>
+                                    <b:column col-lg="5" >
+                                        <div class="form-group">
+
+                                            <h:selectOneMenu id="inputEdadDesde" class="form-control "   value="#{jugueteCT.juguete.edadDesde}" >
+                                                <!--<p:ajax event="change" listener="{usuarioCT.consultarUsuarioPorEmpresasLikeInicio()}" update="user"/>-->
+                                                <f:selectItem itemLabel="Seleccione Edad Desde (Opcional)"  itemValue="999999"/>
+                                                <f:selectItem itemLabel="0 año" itemValue="0"/>
+                                                <f:selectItem itemLabel="1 año" itemValue="1"/>
+                                                <f:selectItem itemLabel="2 años" itemValue="2"/>
+                                                <f:selectItem itemLabel="3 años" itemValue="3"/>
+                                                <f:selectItem itemLabel="4 años" itemValue="4"/>
+                                                <f:selectItem itemLabel="5 años" itemValue="5"/>
+                                                <f:selectItem itemLabel="6 años" itemValue="6"/>
+                                                <f:selectItem itemLabel="7 años" itemValue="7"/>
+                                                <f:selectItem itemLabel="8 años" itemValue="8"/>
+                                                <f:selectItem itemLabel="9 años" itemValue="9"/>
+                                                <f:selectItem itemLabel="10 años" itemValue="10"/>
+                                                <f:selectItem itemLabel="11 años" itemValue="11"/>
+                                                <f:selectItem itemLabel="12 años" itemValue="12"/>
+                                                <f:selectItem itemLabel="13 años" itemValue="13"/>
+                                                <f:selectItem itemLabel="14 años" itemValue="14"/>
+                                                <f:selectItem itemLabel="15 años" itemValue="15"/>
+                                                <f:selectItem itemLabel="16 años" itemValue="16"/>
+                                                <f:selectItem itemLabel="17 años" itemValue="17"/>
+                                                <f:selectItem itemLabel="18 años" itemValue="18"/>
+                                            </h:selectOneMenu>
+                                            <p:message for="inputEdadDesde" ></p:message>
+                                        </div>  
+
+                                    </b:column>
+                                    <b:column col-lg="5" >
+                                        <div class="form-group">
+
+                                            <h:selectOneMenu id="inputEdadHasta" class="form-control "   value="#{jugueteCT.juguete.edadHasta}" >
+                                                <!--<p:ajax event="change" listener="{usuarioCT.consultarUsuarioPorEmpresasLikeInicio()}" update="user"/>-->
+                                                <f:selectItem itemLabel="Seleccione Edad Hasta (Opcional)"  itemValue="999999"/>
+                                                <f:selectItem itemLabel="0 año" itemValue="0"/>
+                                                <f:selectItem itemLabel="1 año" itemValue="1"/>
+                                                <f:selectItem itemLabel="2 años" itemValue="2"/>
+                                                <f:selectItem itemLabel="3 años" itemValue="3"/>
+                                                <f:selectItem itemLabel="4 años" itemValue="4"/>
+                                                <f:selectItem itemLabel="5 años" itemValue="5"/>
+                                                <f:selectItem itemLabel="6 años" itemValue="6"/>
+                                                <f:selectItem itemLabel="7 años" itemValue="7"/>
+                                                <f:selectItem itemLabel="8 años" itemValue="8"/>
+                                                <f:selectItem itemLabel="9 años" itemValue="9"/>
+                                                <f:selectItem itemLabel="10 años" itemValue="10"/>
+                                                <f:selectItem itemLabel="11 años" itemValue="11"/>
+                                                <f:selectItem itemLabel="12 años" itemValue="12"/>
+                                                <f:selectItem itemLabel="13 años" itemValue="13"/>
+                                                <f:selectItem itemLabel="14 años" itemValue="14"/>
+                                                <f:selectItem itemLabel="15 años" itemValue="15"/>
+                                                <f:selectItem itemLabel="16 años" itemValue="16"/>
+                                                <f:selectItem itemLabel="17 años" itemValue="17"/>
+                                                <f:selectItem itemLabel="18 años" itemValue="18"/>
+                                            </h:selectOneMenu>
+                                            <p:message for="inputEdadHasta" ></p:message>
+                                        </div>  
+
+                                    </b:column>
+                                    <b:column col-lg="1">
+                                        <div align="right">
+                                            <h:panelGrid columns="1" style="margin-bottom: 20px;">
+                                                <p:commandButton action="#{jugueteCT.filtrarPorEmpresaJuguetesMasVotadosYSeleccionados()}"
+                                                                 ajax="true"         update=" :consultarVotados :consultarSeleccionados :consultarPorVotar" class=" btn btn-info" value="Aceptar" />
+                                            </h:panelGrid>
+                                        </div>
+                                    </b:column>
+                                </h:form>
+                                <h:form id="consultarVotados">
+                                    <b:column col-lg="8" >
+
+
+                                        <div class="widget " >
+                                            <div class="widget-header"> <i class="fa fa-list-alt"></i>
+                                                <h3> Los Articulos Mas Votados </h3>
+                                            </div>
+                                            <!-- /widget-header -->
+                                            <div class="widget-content">
+                                                <div class="widget big-stats-container">
+                                                    <div class="widget-content">
+
+
+                                                        <p:dataTable id="tbl" var="inv" value="#{jugueteCT.inventariosMasVotados}"
+                                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                                                     paginator="true" rows="3" style="margin-bottom:20px">
+
+                                                            <f:facet name="{Exporters}">
+                                                                <h:commandLink>
+                                                                    <p:graphicImage name="./images/excel.png"  style="width:30px;height:30px" />
+                                                                    <p:dataExporter type="xls" target="tbl" fileName="ArticulosMasVotados #{jugueteCT.fechaActual}" />
+                                                                </h:commandLink>
+
+                                                            </f:facet>
+
+                                                            <p:column width="30px;">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="+" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.sumatoria}" />
+                                                            </p:column>
+
+                                                            <p:column width="90px;">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Codigo" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.codigo}" />
+                                                            </p:column>
+
+                                                            <p:column width="200px;">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Nombre"/>
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.nombre}" />
+                                                            </p:column>
+
+                                                            <p:column width="60px;">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Genero" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.genero}" />
+                                                            </p:column>
+
+                                                            <p:column>
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Descripcion" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.descripcion}" />
+                                                            </p:column>
+                                                        </p:dataTable>
+
+                                                    </div>
+                                                    <!-- /widget-content --> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </b:column>
+                                    <!-- /widget -->
+
+                                    <b:column col-lg="4" >
+                                        <div class="widget widget-nopad">
+                                            <div class="widget-header"> <i class="fa fa-area-chart"></i>
+                                                <h3>Articulos Mas Votados</h3>
+                                            </div>
+                                            <!-- /widget-header -->
+                                            <div class="widget-content">
+
+                                                <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                                                    <p:chart type="bar" model="#{jugueteCT.animatedModel3}" style="width:350px;" />
+
+                                                    <br/>
+                                                    <c:choose>
+                                                        <c:when test="${sesionCT.obtenerSesion().idTipoUsuario.idTipoUsuario == 1 || sesionCT.obtenerSesion().idTipoUsuario.idTipoUsuario == 2}">
+                                                            <b:commandButton value="Verificación" action="Verificacion" class="btn btn-info " style="margin: 20px" >
+                                                                <b:iconAwesome name="send"></b:iconAwesome>
+                                                            </b:commandButton> 
+                                                        </c:when>
+                                                    </c:choose>
+                                                </h:panelGrid>
+
+                                            </div>
+                                            <!-- /widget-content --> 
+                                        </div>                                
+                                    </b:column>
+                                </h:form>
+
+                                <h:form id="consultarSeleccionados">
+                                    <b:column col-lg="8" >
+
+                                        <div class="widget " >
+                                            <div class="widget-header"> <i class="fa fa-list-alt"></i>
+                                                <h3> Los Articulos Mas Seleccionados </h3>
+                                            </div>
+                                            <!-- /widget-header -->
+                                            <div class="widget-content">
+                                                <div class="widget big-stats-container">
+                                                    <div class="widget-content">
+
+
+                                                        <p:dataTable id="tbl" var="inv" value="#{jugueteCT.inventariosMasSeleccionados}"
+                                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                                                     paginator="true" rows="3" style="margin-bottom:20px">
+
+                                                            <f:facet name="{Exporters}">
+                                                                <h:commandLink>
+                                                                    <p:graphicImage name="./images/excel.png"  style="width:30px;height:30px" />
+                                                                    <p:dataExporter type="xls" target="tbl" fileName="ArticulosMasSeleccionados #{jugueteCT.fechaActual}" />
+                                                                </h:commandLink>
+
+                                                            </f:facet>
+
+                                                            <p:column width="30px;">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="*" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.seleccion}" />
+                                                            </p:column>
+                                                            <p:column width="90px;">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Codigo" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.codigo}" />
+                                                            </p:column>
+
+                                                            <p:column width="200px;">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Nombre"/>
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.nombre}" />
+                                                            </p:column>
+
+                                                            <p:column width="60px;">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Genero" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.genero}" />
+                                                            </p:column>
+
+                                                            <p:column>
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Descripcion" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{inv.descripcion}" />
+                                                            </p:column>
+                                                        </p:dataTable>
+
+                                                    </div>
+                                                    <!-- /widget-content --> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </b:column>
+                                    <!-- /widget -->
+
+                                    <b:column col-lg="4" >
+                                        <div class="widget widget-nopad">
+                                            <div class="widget-header"> <i class="fa fa-area-chart"></i>
+                                                <h3>Articulos Mas Seleccionados</h3>
+                                            </div>
+                                            <!-- /widget-header -->
+                                            <div class="widget-content">
+
+                                                <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                                                    <p:chart type="bar" model="#{jugueteCT.animatedModel2}" style="width:350px;" />
+
+                                                </h:panelGrid>
+
+                                            </div>
+                                            <!-- /widget-content --> 
+                                        </div>                                
+                                    </b:column>
+                                </h:form>
+
+                                <h:form id="consultarPorVotar">
+                                    <b:column col-lg="8" >
+
+
+                                        <div class="widget " >
+                                            <div class="widget-header"> <i class="fa fa-list-alt"></i>
+                                                <h3> Usuarios restantes por votar </h3>
+                                            </div>
+                                            <!-- /widget-header -->
+                                            <div class="widget-content">
+                                                <div class="widget big-stats-container">
+                                                    <div class="widget-content">
+
+
+                                                        <p:dataTable id="tbl" var="us" value="#{jugueteCT.usuariosPorVotar}"
+                                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                                                     paginator="true" rows="3" style="margin-bottom:20px">
+
+                                                            <f:facet name="{Exporters}">
+                                                                <h:commandLink>
+                                                                    <p:graphicImage name="./images/excel.png"  style="width:30px;height:30px" />
+                                                                    <p:dataExporter type="xls" target="tbl" fileName="UsuariosFaltantesPorVotar #{jugueteCT.fechaActual}" />
+                                                                </h:commandLink>
+
+                                                            </f:facet>
+
+                                                            <p:column width="200px;" >
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Nombre"/>
+                                                                </f:facet>
+                                                                <h:outputText value="#{us.nombre}" />
+                                                            </p:column>
+
+                                                            <p:column width="60px;">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Email" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{us.email}" />
+                                                            </p:column>
+
+                                                        </p:dataTable>
+                                                    </div>
+                                                    <!-- /widget-content --> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </b:column>
+                                    <!-- /widget -->
+
+                                    <b:column col-lg="4" >
+                                        <div class="widget">
+                                            <div class="widget-header"> <i class="fa fa-pie-chart"></i>
+                                                <h3> Como Van Las Votaciones</h3>
+                                            </div>
+
+                                            <div class="widget-content">
+                                                <ul class="messages_layout">
+                                                    <h:form>
+                                                        <p:growl id="growl" showDetail="true" />
+
+                                                        <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                                                            <p:chart type="pie" model="#{jugueteCT.pieModel1}" style="width:350px;height:300px">
+                                                                <p:ajax event="itemSelect" listener="#{jugueteCT.itemSelect}" update="growl" />
+                                                            </p:chart>
+                                                            <br/>
+                                                            <b:commandButton value="Envia Recordatorio" action="#{jugueteCT.eliminar()}" class="btn btn-info " >
+                                                                <b:iconAwesome name="send"></b:iconAwesome>
+                                                            </b:commandButton> 
+
+                                                        </h:panelGrid>
+                                                    </h:form>
+
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </b:column>
+                                </h:form>
+
+                                <h:form id="Articulos" style="font-size:0px;">
+                                    <b:column col-lg="4" style="float: right" >
+
+
+                                        <div class="widget " >
+                                            <div class="widget-header"> <i class="fa fa-list-alt"></i>
+                                                <h3> Descargar Listado de Artículos </h3>
+                                            </div>
+                                            <!-- /widget-header -->
+                                            <div class="widget-content">
+                                                <div class="widget big-stats-container">
+                                                    <div class="widget-content">
+
+
+                                                        <p:dataTable id="tbl" var="us" value="#{jugueteCT.entregaArticulos}"
+                                                                     paginatorTemplate="   {Exporters}"
+                                                                     paginator="true" style="margin-bottom:20px">
+
+                                                            <f:facet name="{Exporters}">
+                                                                <h:commandLink>
+                                                                    <p:graphicImage name="./images/excel.png"  style="width:200px;height:200px" />
+                                                                    <p:dataExporter type="xls" target="tbl" fileName="EntregaDeArticulos #{jugueteCT.fechaActual}" />
+                                                                </h:commandLink>
+
+                                                            </f:facet>
+
+                                                            <p:column width="200px;" visible="false" >
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Nombre Padre"/>
+                                                                </f:facet>
+                                                                <h:outputText value="#{us.idUsuario.nombre}" />
+                                                            </p:column>
+
+                                                            <p:column width="60px;" visible="false">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="CC" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{us.idUsuario.cc}" />
+                                                            </p:column>
+
+                                                            <p:column width="60px;" visible="false">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Email" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{us.idUsuario.email}" />
+                                                            </p:column>
+
+                                                            <p:column width="60px;" visible="false">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Telefono" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{us.idUsuario.telefono}" />
+                                                            </p:column>
+                                                            <p:column width="60px;" visible="false">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Nombre Hijo" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{us.nombreHijo}" />
+                                                            </p:column>
+                                                            <p:column width="60px;" visible="false">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Edad Hijo" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{us.edadHijo}" />
+                                                            </p:column>
+                                                            <p:column width="60px;" visible="false">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Genero Hijo" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{us.sexoHijo}" />
+                                                            </p:column>
+                                                            <p:column width="60px;" visible="false">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Código Articulo" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{us.inventario.codigo}" />
+                                                            </p:column>
+                                                            <p:column width="60px;" visible="false">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Nombre Articulo" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{us.inventario.nombre}" />
+                                                            </p:column>
+                                                            <p:column width="60px;" visible="false">
+                                                                <f:facet name="header">
+                                                                    <h:outputText value="Ticket" />
+                                                                </f:facet>
+                                                                <h:outputText value="#{us.ticket}" />
+                                                            </p:column>
+                                                        </p:dataTable>
+                                                    </div>
+                                                    <!-- /widget-content --> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </b:column>
+                                    <!-- /widget -->
+
+                                </h:form>
+
+
+                            </b:row>
+
+                            <!-- /row --> 
+
+                            <!-- /container --> 
+                        </b:container>
+
+                    </div>
+                    <!-- /main-inner --> 
+                </div>
+                <!-- /main -->
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+
