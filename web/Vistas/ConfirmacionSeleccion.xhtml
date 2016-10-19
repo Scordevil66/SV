@@ -67,7 +67,7 @@
                                                                                                                           
                                                                                                                         </b:commandButton>-->
                                                             <p:growl id="message" showDetail="true" />
-                                                            <b:commandButton value="Aceptar!" action="${pedidoCT.editarPedido(sesionCT.obtenerSesion().idUsuario,jugueteCT.pedido.idPedido, jugueteCT.juguete.idInventario, jugueteCT.juguete.codigo,jugueteCT.anioActual)}" update=":formulario" class="btn btn-info " >
+                                                            <b:commandButton value="Aceptar!" action="${pedidoCT.editarPedido(sesionCT.obtenerSesion().idUsuario,jugueteCT.pedido.idPedido, jugueteCT.juguete.idInventario, jugueteCT.juguete.codigo,jugueteCT.anioActual, jugueteCT.juguete.descripcion)}" update=":formulario" class="btn btn-info " >
 
                                                                 <b:iconAwesome name="send"></b:iconAwesome>
                                                             </b:commandButton>

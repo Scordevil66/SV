@@ -6,10 +6,13 @@
 package com.sv.controladores;
 
 import com.sv.clases.Sesion;
+import com.sv.dao.CorreoDao;
 import com.sv.dao.InventarioDao;
 import com.sv.dao.PedidoDao;
 import com.sv.dao.UsuarioDao;
+import com.sv.modelos.Inventario;
 import com.sv.modelos.Pedido;
+import com.sv.modelos.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -83,7 +86,7 @@ public class PedidoCT {
         pedido = pedidoDao.ConsultarPedido(idPedido);
     }
 
-    public String editarPedido(int idUsuario, int idPedido, int idInventario, String codigo, String anio) {
+    public String editarPedido(int idUsuario, int idPedido, int idInventario, String codigo, String anio, String nombre) {
         String link = "";
         int valor = 0;
         InventarioDao inventarioDao = new InventarioDao();
@@ -91,13 +94,27 @@ public class PedidoCT {
         Pedido ped = new Pedido();
         ped.setIdInventario(idInventario);
         ped.setIdPedido(idPedido);
-        ped.setTicket(idUsuario+codigo+idPedido+anio);
+        ped.setTicket(idUsuario + codigo + idPedido + anio);
         valor = pedidoDao.EditarPedido(ped);
 
         if (valor == 1) {
-            
+
             inventarioDao.actualizarInventario(idInventario, 1);
+
+            CorreoDao correoDao = new CorreoDao();
             
+            Inventario juguete = new Inventario();
+            juguete.setIdInventario(idInventario);
+            juguete.setCodigo(codigo);
+            juguete.setNombre(nombre);
+            
+            Usuario usuario = new Usuario();
+            usuario.setNombre(Sesion.obtenerSesion().getNombre());
+            usuario.setUsuario(Sesion.obtenerSesion().getUsuario());
+            usuario.setEmail(Sesion.obtenerSesion().getEmail());
+            pedido.setTicket(ped.getTicket());
+            correoDao.EnviarConfirmacionSeleccion(usuario, pedido, juguete);
+
             Sesion.cerrarHttpSesion();
 
             link = "Login";
