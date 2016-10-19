@@ -14,7 +14,7 @@ public class ruta {
     private static String rutas;
     
     public static String consultarRuta(){
-    rutas = "http://192.169.150.79/SalaVirtualService/webresources";
+    rutas = "http://107.180.72.83/SalaVirtualService/webresources";
     
 //    rutas = "http://localhost:8084/SalaVirtualService/webresources";
     
