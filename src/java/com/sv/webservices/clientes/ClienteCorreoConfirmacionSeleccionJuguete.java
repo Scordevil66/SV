@@ -36,19 +36,20 @@ public class ClienteCorreoConfirmacionSeleccionJuguete {
     }
 
     /**
+     * @param <T>
      * @param responseType Class representing the response
      * @param nombreUsuario query parameter
      * @param nombreHijo query parameter
      * @param codigoInventario query parameter
-     * @param idPedido query parameter
+     * @param ticket
      * @param nombreJuguete query parameter
      * @param usuario query parameter
      * @param email query parameter
      * @return response object (instance of responseType class)
      */
-    public <T> T correoConfirmacionSeleccionJuguete(Class<T> responseType, String nombreUsuario, String nombreHijo, String codigoInventario, String idPedido, String nombreJuguete, String usuario, String email) throws ClientErrorException {
-        String[] queryParamNames = new String[]{"nombreUsuario", "nombreHijo", "codigoInventario", "idPedido", "nombreJuguete", "usuario", "email"};
-        String[] queryParamValues = new String[]{nombreUsuario, nombreHijo, codigoInventario, idPedido, nombreJuguete, usuario, email};
+    public <T> T correoConfirmacionSeleccionJuguete(Class<T> responseType, String nombreUsuario, String nombreHijo, String codigoInventario, String ticket, String nombreJuguete, String usuario, String email) throws ClientErrorException {
+        String[] queryParamNames = new String[]{"nombreUsuario", "nombreHijo", "codigoInventario", "ticket", "nombreJuguete", "usuario", "email"};
+        String[] queryParamValues = new String[]{nombreUsuario, nombreHijo, codigoInventario, ticket, nombreJuguete, usuario, email};
         ;
         javax.ws.rs.core.Form form = getQueryOrFormParams(queryParamNames, queryParamValues);
         javax.ws.rs.core.MultivaluedMap<String, String> map = form.asMap();

@@ -5,7 +5,10 @@
  */
 package com.sv.dao;
 
+import com.sv.modelos.Inventario;
+import com.sv.modelos.Pedido;
 import com.sv.modelos.Usuario;
+import com.sv.webservices.clientes.ClienteCorreoConfirmacionSeleccionJuguete;
 import com.sv.webservices.clientes.ClienteCorreoCreacionAdministrador;
 import com.sv.webservices.clientes.ClienteCorreoVotacion;
 
@@ -24,6 +27,11 @@ public class CorreoDao {
     public int EnviarCorreoVotacion(Usuario usuario){
         ClienteCorreoVotacion cliente = new ClienteCorreoVotacion();
         return cliente.correoVotacion(int.class, usuario.getNombre(), usuario.getIdEmpresa().getNombre(), usuario.getUsuario(), usuario.getContrasena(), usuario.getEmail());
+    }
+    
+        public int EnviarConfirmacionSeleccion(Usuario usuario, Pedido pedido, Inventario inventario){
+            ClienteCorreoConfirmacionSeleccionJuguete cliente = new ClienteCorreoConfirmacionSeleccionJuguete();
+        return cliente.correoConfirmacionSeleccionJuguete(int.class, usuario.getNombre(), pedido.getNombreHijo(), inventario.getCodigo(), pedido.getTicket(), inventario.getNombre(), usuario.getUsuario(), usuario.getEmail());
     }
     
 }
