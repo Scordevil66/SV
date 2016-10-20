@@ -220,12 +220,17 @@ public class UsuarioCT implements Serializable {
             }
 
             if (isDeshabilitar() == true) {
-                usuario.getIdEmpresa().setIdEmpresa(5); //Faro
+                usuario.getIdEmpresa().setIdEmpresa(Sesion.obtenerSesion().getIdEmpresa().getIdEmpresa()); //Faro
             }
 
             if (usuario.getCodigoEmpleado() == null) {
                 usuario.setCodigoEmpleado(0);
             }
+
+            if (usuario.getIdDepartamento().getIdDepartamento() == null || usuario.getIdDepartamento().getIdDepartamento() == 0) {
+                usuario.getIdDepartamento().setIdDepartamento(0);
+            }
+            
             int resultado = usuarioDao.registrarUsuario(usuario);
 
             if (resultado == 1) {
@@ -440,12 +445,10 @@ public class UsuarioCT implements Serializable {
                     archivo.uploadFile(IOUtils.toByteArray(arExcel.getInputstream()), arExcel.getFileName(), destino);
 
                     destino = destino + arExcel.getFileName();
-                    
+
 //                    String a = "http://192.169.150.79/SalaVirtual/resources/images/usuarios/Colpatria - Base Beneficiarios el Faro.xls";
 //                     destino = a + "\\" + arExcel.getFileName();
-                     
 //                     destino = a;
-
                     LeerArchivoDeExcel.registrarUsuarioYPedido(destino, usuario.getIdEmpresa().getIdEmpresa());
 //                empresa.setUrlLogo(map.get("url") + arExcel.getFileName());
                 }
