@@ -25,7 +25,7 @@ public class SesionCT {
     private Usuario usuario;
     protected UsuarioDao usuarioDao;
     private Usuario user;
-    private int menu;
+    private int menu, inicioS;
 
     //Constructores
     public SesionCT() {
@@ -73,6 +73,7 @@ public class SesionCT {
         if (usuario.getIdUsuario() > 0) {
             if (usuario.getContrasena().equalsIgnoreCase(user.getContrasena())) {
 
+//                ruta = iniciarSesionFin();
                 iniciarHttpSesion(usuario);
 
                 switch (usuario.getIdTipoUsuario().getIdTipoUsuario()) {
@@ -99,9 +100,6 @@ public class SesionCT {
                         break;
                 }
 
-                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", "" + usuario.getNombre());
-                FacesContext.getCurrentInstance().addMessage(null, message);
-
             } else {
                 message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Contraseña incorrecta", "Digite de nuevo su contraseña");
                 FacesContext.getCurrentInstance().addMessage(null, message);
@@ -110,9 +108,55 @@ public class SesionCT {
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuario no existente", "Usuario no existe");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
+
         return ruta;
     }
 
+//    public String iniciarSesionFin() {
+//
+//        String rutaO = "";
+//
+//        if (usuario.getContrasena() != null) {
+//            if (usuario.getContrasena().equalsIgnoreCase(user.getContrasena())) {
+//
+//                String ruta = "";
+//
+//                iniciarHttpSesion(usuario);
+//
+//                switch (usuario.getIdTipoUsuario().getIdTipoUsuario()) {
+//                    case 1:
+//                        ruta = "Dashboard";
+//                        break;
+//                    case 2:
+//                        ruta = "Dashboard";
+//                        break;
+//                    case 3:
+//                        ruta = "Dashboard";
+//                        break;
+//                    case 4:
+//                        int idComite = 0;
+//                        ComiteDao comiteDao = new ComiteDao();
+//                        idComite = comiteDao.consultarComitePorUsuario(Sesion.obtenerSesion().getIdUsuario());
+//                        if (idComite > 0) {
+//                            ruta = "Votacion de Juguetes";
+//                        } else {
+//                            ruta = "Seleccion de Juguetes";
+//
+//                        }
+//
+//                        break;
+//                }
+//                rutaO = ruta;
+//            }
+//        }
+//        return rutaO;
+//    }
+//
+//    public void prueba() {
+//        FacesMessage message = new FacesMessage();
+//        message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Iniciando Sesion, por favor espere", "");
+//        FacesContext.getCurrentInstance().addMessage(null, message);
+//    }
     public String cerrarSesion() {
         cerrarHttpSesion();
         return "Login";
@@ -132,7 +176,7 @@ public class SesionCT {
             return "/resources/images/logos/default-user.png";
         } else {
             return usuario.getIdEmpresa().getUrlLogo();
-        } 
+        }
     }
 
 }

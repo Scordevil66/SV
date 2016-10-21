@@ -462,7 +462,7 @@ public class JugueteCT {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
 
-        inventarios = inventarioDao.consultarJuguetes();
+//        inventarios = inventarioDao.consultarJuguetes();
         juguete = new Inventario();
     }
 
