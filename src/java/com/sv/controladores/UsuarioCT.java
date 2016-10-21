@@ -51,6 +51,7 @@ public class UsuarioCT implements Serializable {
     private boolean deshabilitar;
 
     private int operacion;
+    private int resultado;
     private String nombreOperacion;
 
     public UsuarioCT() {
@@ -63,6 +64,7 @@ public class UsuarioCT implements Serializable {
         deshabilitar = false;
         nombreOperacion = "Registrar";
         archivo = new Upload();
+        resultado = 0;
     }
 
     @PostConstruct
@@ -184,15 +186,31 @@ public class UsuarioCT implements Serializable {
         this.archivo = archivo;
     }
 
+    public int getResultado() {
+        return resultado;
+    }
+
+    public void setResultado(int resultado) {
+        this.resultado = resultado;
+    }
+
     //Metodos
     public void metodo() throws IOException {
-        if (operacion == 0) {
+        UsuarioDao usuarioDao = new UsuarioDao();
+        Usuario temp = new Usuario();
+
+        temp = usuarioDao.consultarUsuarioPorCC(usuario.getCc());
+        if (temp.getIdUsuario() == 0 && operacion == 0) {
             registrar();
-        } else if (operacion == 1) {
+        } else if (temp.getIdUsuario() != 0 && operacion == 1) {
             modificar();
             //Reiniciamos banderas
             nombreOperacion = "Registrar";
             operacion = 0;
+        } else {
+
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "No se puede Registrar, El usuario ya existe", "");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
 
@@ -211,41 +229,37 @@ public class UsuarioCT implements Serializable {
 
     public void registrar() {
         UsuarioDao usuarioDao = new UsuarioDao();
-        Usuario temp = new Usuario();
 
-        temp = usuarioDao.consultarUsuarioPorCC(usuario.getCc());
-        if (!(temp.getIdUsuario() > 0)) {
-            if (usuario.getIdTipoUsuario().getIdTipoUsuario() == 1 || usuario.getIdTipoUsuario().getIdTipoUsuario() == 2) {
-                usuario.setIdEmpresa(Sesion.obtenerSesion().getIdEmpresa());
-            }
+        if (usuario.getIdTipoUsuario().getIdTipoUsuario() == 1 || usuario.getIdTipoUsuario().getIdTipoUsuario() == 2) {
+            usuario.setIdEmpresa(Sesion.obtenerSesion().getIdEmpresa());
+        }
 
-            if (isDeshabilitar() == true) {
-                usuario.getIdEmpresa().setIdEmpresa(Sesion.obtenerSesion().getIdEmpresa().getIdEmpresa()); //Faro
-            }
+        if (isDeshabilitar() == true) {
+            usuario.getIdEmpresa().setIdEmpresa(Sesion.obtenerSesion().getIdEmpresa().getIdEmpresa()); //Faro
+        }
 
-            if (usuario.getCodigoEmpleado() == null) {
-                usuario.setCodigoEmpleado(0);
-            }
+        if (usuario.getCodigoEmpleado() == null) {
+            usuario.setCodigoEmpleado(0);
+        }
 
-            if (usuario.getIdDepartamento().getIdDepartamento() == null || usuario.getIdDepartamento().getIdDepartamento() == 0) {
-                usuario.getIdDepartamento().setIdDepartamento(0);
-            }
-            
-            int resultado = usuarioDao.registrarUsuario(usuario);
+        if (usuario.getIdDepartamento().getIdDepartamento() == null || usuario.getIdDepartamento().getIdDepartamento() == 0) {
+            usuario.getIdDepartamento().setIdDepartamento(0);
+        }
 
-            if (resultado == 1) {
-                if (usuario.getIdTipoUsuario().getIdTipoUsuario() == 1 || usuario.getIdTipoUsuario().getIdTipoUsuario() == 2 || usuario.getIdTipoUsuario().getIdTipoUsuario() == 3) {
-                    CorreoDao correoDao = new CorreoDao();
-                    correoDao.EnviarCorreoCreacionAdministrador(usuario);
-                }
+        resultado = usuarioDao.registrarUsuario(usuario);
 
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "El usuario ha sido registrado correctamente");
-                FacesContext.getCurrentInstance().addMessage(null, message);
-            } else if (resultado == 0) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Imposible registrar usuario");
-                FacesContext.getCurrentInstance().addMessage(null, message);
-            }
-            usuario = new Usuario();
+        if (resultado == 1) {
+
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "El usuario ha sido registrado correctamente");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+
+        } else if (resultado == 0) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Imposible registrar usuario");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+
+        usuario = new Usuario();
+
 //        if (Sesion.obtenerSesion().getIdTipoUsuario().getIdTipoUsuario() == 1) {
 //            usuarios = usuarioDao.consultarUsuarios();
 //        } else if (Sesion.obtenerSesion().getIdTipoUsuario().getIdTipoUsuario() == 2) {
@@ -253,10 +267,17 @@ public class UsuarioCT implements Serializable {
 //            emp.setIdEmpresa(usuario.getIdEmpresa().getIdEmpresa());
 //            usuarios = usuarioDao.ConsultarUsuariosSegunEmpresa(emp);
 //        }
-        } else {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "No se puede Registrar, El usuario ya existe", "");
-            FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public void enviarCorreoRegistro() {
+        if (usuario.getIdTipoUsuario().getIdTipoUsuario() == 1 || usuario.getIdTipoUsuario().getIdTipoUsuario() == 2 || usuario.getIdTipoUsuario().getIdTipoUsuario() == 3) {
+
+            if (resultado == 1) {
+                CorreoDao correoDao = new CorreoDao();
+                correoDao.EnviarCorreoCreacionAdministrador(usuario);
+            }
         }
+
     }
 
     public void modificar() {

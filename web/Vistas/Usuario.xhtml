@@ -202,7 +202,7 @@
                                                                     <p:commandButton action="#{usuarioCT.cancelar()}" process="@this" immediate="true" 
                                                                                      update=":formularioRegistro" class=" btn btn-danger" value="Cancelar"/>
                                                                     <p:commandButton action="#{usuarioCT.metodo()}"
-                                                                                     update=":formularioRegistro :formularioLista" class=" btn btn-info" value="#{usuarioCT.nombreOperacion}"/>
+                                                                                     update=":formularioRegistro :formularioLista" class=" btn btn-info" value="#{usuarioCT.nombreOperacion}" oncomplete="#{usuarioCT.enviarCorreoRegistro()}" />
                                                                 </h:panelGrid>
                                                             </div>
                                                         </div>

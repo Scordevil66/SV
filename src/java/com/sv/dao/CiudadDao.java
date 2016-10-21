@@ -32,8 +32,8 @@ public class CiudadDao {
             ciudades.add(new Ciudad((int) datos.get(i).get("idCiudad"),
                     (String) datos.get(i).get("nombre"),
                     (String) datos.get(i).get("descripcion"),
-                    departamentoDao.consultarDepartamento(new Departamento((int) map.get("idDepartamento")))));
-
+                    //                    departamentoDao.consultarDepartamento(new Departamento((int) map.get("idDepartamento")))));
+                    (new Departamento((int) map.get("idDepartamento")))));
         }
         return ciudades;
     }
