@@ -113,7 +113,7 @@ public class PedidoCT {
             usuario.setUsuario(Sesion.obtenerSesion().getUsuario());
             usuario.setEmail(Sesion.obtenerSesion().getEmail());
             pedido.setTicket(ped.getTicket());
-            correoDao.EnviarConfirmacionSeleccion(usuario, pedido, juguete);
+//            correoDao.EnviarConfirmacionSeleccion(usuario, pedido, juguete);
 
             Sesion.cerrarHttpSesion();
 
