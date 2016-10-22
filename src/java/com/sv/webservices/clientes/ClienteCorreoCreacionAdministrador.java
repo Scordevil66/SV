@@ -5,6 +5,7 @@
  */
 package com.sv.webservices.clientes;
 
+import com.sv.clases.ruta;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -28,7 +29,7 @@ public class ClienteCorreoCreacionAdministrador {
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8084/SalaVirtualService/webresources/";
+    private static final String BASE_URI = ruta.consultarRuta();
 
     public ClienteCorreoCreacionAdministrador() {
         client = ResteasyClientBuilder.newBuilder().build();
@@ -71,5 +72,5 @@ public class ClienteCorreoCreacionAdministrador {
     public void close() {
         client.close();
     }
-    
+
 }
