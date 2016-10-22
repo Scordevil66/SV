@@ -218,7 +218,12 @@
                                                                     <p:commandLink style="color: white; width: 100%" action="#{empresaCT.eliminar()}" process="@this" update=":formularioLista :formularioRegistro:msg" title="Eliminar" class="btn btn-block btn-danger">
                                                                         <f:setPropertyActionListener value="#{empresa}" target="#{empresaCT.empresa}"/>
                                                                         <i class="fa fa-trash"/>                                                     
+                                                                        <p:confirm header="Confirmación" message="¿Desea eliminar esta Empresa? Eliminara todos los usuarios, inventarios e información de la misma" icon="ui-icon-alert" />                                  
                                                                     </p:commandLink>
+                                                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                                    </p:confirmDialog>
                                                                 </p:column>
                                                             </p:dataTable>
                                                         </h:form>
