@@ -146,12 +146,12 @@ public class UsuarioDao {
         CiudadDao ciudadDao = new CiudadDao();
         TipoUsuarioDao tipoUsuarioDao = new TipoUsuarioDao();
 
-        if (nuevo.getIdUsuario() != 0) {
-            nuevo.setIdEmpresa(empresaDao.consultarEmpresa(nuevo.getIdEmpresa()));
-            nuevo.setIdCiudad(ciudadDao.consultarCiudad(nuevo.getIdCiudad()));
-            nuevo.setIdDepartamento(departamentoDao.consultarDepartamento(nuevo.getIdDepartamento()));
-            nuevo.setIdTipoUsuario(tipoUsuarioDao.consultarTipoUsuario(nuevo.getIdTipoUsuario()));
-        }
+//        if (nuevo.getIdUsuario() != 0) {
+//            nuevo.setIdEmpresa(empresaDao.consultarEmpresa(nuevo.getIdEmpresa()));
+//            nuevo.setIdCiudad(ciudadDao.consultarCiudad(nuevo.getIdCiudad()));
+//            nuevo.setIdDepartamento(departamentoDao.consultarDepartamento(nuevo.getIdDepartamento()));
+//            nuevo.setIdTipoUsuario(tipoUsuarioDao.consultarTipoUsuario(nuevo.getIdTipoUsuario()));
+//        }
 
         return nuevo;
 
