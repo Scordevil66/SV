@@ -332,8 +332,10 @@ public class UsuarioDao {
                     (String) datos.get(i).get("areaTrabajo"),
                     td.consultarTipoUsuario(new Tipousuario((int) map4.get(("idTipoUsuario")))),
                     ed.consultarEmpresa(new Empresa((int) map1.get("idEmpresa"))),
-                    dd.consultarDepartamento(new Departamento((int) map3.get("idDepartamento"))),
-                    cd.consultarCiudad(new Ciudad((int) map2.get("idCiudad")))));
+                    new Departamento((int) map3.get("idDepartamento")),
+                    new Ciudad((int) map2.get("idCiudad"))));
+//             dd.consultarDepartamento(new Departamento((int) map3.get("idDepartamento"))),
+//                    cd.consultarCiudad(new Ciudad((int) map2.get("idCiudad")))));
         }
 
         return usuarios;
