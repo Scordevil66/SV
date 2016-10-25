@@ -134,9 +134,6 @@ public class ComiteCT {
                     for (int i = 0; i < inventario.size(); i++) {
                         inventarioDao.registrarInventarioComite(inventario.get(i), comite);
                     }
-//                    for (int i = 0; i < empleadosSeleccionados.size(); i++) {
-//                           correoDao.EnviarCorreoVotacion(empleadosSeleccionados.get(i));
-//                    }
                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Comite registrado exitosamente");
                     FacesContext.getCurrentInstance().addMessage(null, message);
                 } else {
