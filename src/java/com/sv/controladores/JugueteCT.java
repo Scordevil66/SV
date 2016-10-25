@@ -14,6 +14,7 @@ import com.sv.clases.Sesion;
 import com.sv.clases.Upload;
 import com.sv.clases.UtilPath;
 import com.sv.dao.ComiteDao;
+import com.sv.dao.CorreoDao;
 import com.sv.dao.EmpresaDao;
 import com.sv.dao.InventarioDao;
 import com.sv.dao.PedidoDao;
@@ -924,7 +925,7 @@ public class JugueteCT {
 
                     archivo.uploadFile(IOUtils.toByteArray(arExcel.getInputstream()), arExcel.getFileName(), destino);
 //                empresa.setUrlLogo(map.get("url") + arExcel.getFileName());
-                    destino = destino +arExcel.getFileName();
+                    destino = destino + arExcel.getFileName();
                     LeerArchivoDeExcel.registrarMasivaInventario(destino, idEmpresa);
                 }
                 FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_INFO, "Su archivo (" + arExcel.getFileName() + ")  se ha guardado con exito.", ""));
@@ -932,6 +933,17 @@ public class JugueteCT {
                 throw ex;
             }
         }
+    }
+
+    public void enviarCorreoRestantesPorVotar() {
+//        if (usuario.getIdTipoUsuario().getIdTipoUsuario() == 1 || usuario.getIdTipoUsuario().getIdTipoUsuario() == 2 || usuario.getIdTipoUsuario().getIdTipoUsuario() == 3) {
+
+        CorreoDao correoDao = new CorreoDao();
+        for (int i = 0; i < usuariosPorVotar.size(); i++) {
+            correoDao.EnviarCorreoRestantesPorVotar(usuariosPorVotar.get(i));
+        }
+
+//        }
     }
 
 }

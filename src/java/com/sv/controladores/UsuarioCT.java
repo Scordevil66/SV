@@ -292,21 +292,7 @@ public class UsuarioCT implements Serializable {
 
     }
 
-    public void enviarCorreoRegistro2() {
-//        if (usuario.getIdTipoUsuario().getIdTipoUsuario() == 1 || usuario.getIdTipoUsuario().getIdTipoUsuario() == 2 || usuario.getIdTipoUsuario().getIdTipoUsuario() == 3) {
-
-        Usuario u = new Usuario();
-        u.setNombre("Gustavo");
-        u.getIdEmpresa().setNombre("IBM");
-        u.setContrasena("123456");
-        u.setEmail("cardenasg66@gmail.com");
-//            if (resultado == 1) {
-        CorreoDao correoDao = new CorreoDao();
-        correoDao.EnviarCorreoCreacionAdministrador(u);
-//            }
-//        }
-
-    }
+ 
 
     public void modificar() {
         UsuarioDao usuarioDao = new UsuarioDao();

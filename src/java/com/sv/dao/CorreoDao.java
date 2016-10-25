@@ -12,6 +12,7 @@ import com.sv.webservices.clientes.ClienteCorreoConfirmacionSeleccionJuguete;
 import com.sv.webservices.clientes.ClienteCorreoCreacionAdministrador;
 import com.sv.webservices.clientes.ClienteCorreoInicioSeleccionDeJuguete;
 import com.sv.webservices.clientes.ClienteCorreoVotacion;
+import com.sv.webservices.clientes.ClienteRestantesPorVotar;
 
 /**
  *
@@ -37,6 +38,11 @@ public class CorreoDao {
     public int EnviarCorreoInicioSeleccionDeJuguete(Usuario usuario) {
         ClienteCorreoInicioSeleccionDeJuguete cliente = new ClienteCorreoInicioSeleccionDeJuguete();
         return cliente.correoSeleccionJuguete(int.class, usuario.getNombre(), usuario.getIdEmpresa().getNombre(), usuario.getUsuario(), usuario.getContrasena(), "", usuario.getEmail());
+    }
+
+    public int EnviarCorreoRestantesPorVotar(Usuario usuario) {
+        ClienteRestantesPorVotar cliente = new ClienteRestantesPorVotar();
+        return cliente.correoRestantesPorVotar(int.class, usuario.getNombre(), usuario.getUsuario(), usuario.getContrasena(), usuario.getEmail());
     }
 
 }
