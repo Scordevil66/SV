@@ -127,9 +127,9 @@ public class ComiteCT {
                     comite = comiteDao.consultarComite(comite);
                     for (int i = 0; i < empleadosSeleccionados.size(); i++) {
                         int r = usuarioDao.registrarUsuarioComite(empleadosSeleccionados.get(i), comite);
-//                        if (r == 1) {
-//                            correoDao.EnviarCorreoVotacion(empleadosSeleccionados.get(i));
-//                        }
+                        if (r == 1) {
+                            correoDao.EnviarCorreoVotacion(empleadosSeleccionados.get(i));
+                        }
                     }
 
                     for (int i = 0; i < inventario.size(); i++) {
