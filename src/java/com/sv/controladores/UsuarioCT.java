@@ -49,6 +49,7 @@ public class UsuarioCT implements Serializable {
     protected Upload archivo;
     private String archivoExcel;
     private boolean deshabilitar;
+    private int envioCorreo;
 
     private int operacion;
     private int resultado;
@@ -65,6 +66,7 @@ public class UsuarioCT implements Serializable {
         nombreOperacion = "Registrar";
         archivo = new Upload();
         resultado = 0;
+        envioCorreo = 0;
     }
 
     @PostConstruct
@@ -194,6 +196,14 @@ public class UsuarioCT implements Serializable {
         this.resultado = resultado;
     }
 
+    public int getEnvioCorreo() {
+        return envioCorreo;
+    }
+
+    public void setEnvioCorreo(int envioCorreo) {
+        this.envioCorreo = envioCorreo;
+    }
+
     //Metodos
     public void metodo() throws IOException {
         UsuarioDao usuarioDao = new UsuarioDao();
@@ -252,7 +262,7 @@ public class UsuarioCT implements Serializable {
 
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "El usuario ha sido registrado correctamente");
             FacesContext.getCurrentInstance().addMessage(null, message);
-            
+
             enviarCorreoRegistro();
 
         } else if (resultado == 0) {
@@ -488,7 +498,7 @@ public class UsuarioCT implements Serializable {
 //                    String a = "http://192.169.150.79/SalaVirtual/resources/images/usuarios/Colpatria - Base Beneficiarios el Faro.xls";
 //                     destino = a + "\\" + arExcel.getFileName();
 //                     destino = a;
-                    LeerArchivoDeExcel.registrarUsuarioYPedido(destino, usuario.getIdEmpresa().getIdEmpresa());
+                    LeerArchivoDeExcel.registrarUsuarioYPedido(destino, usuario.getIdEmpresa().getIdEmpresa(), envioCorreo);
 //                empresa.setUrlLogo(map.get("url") + arExcel.getFileName());
                 }
                 FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_INFO, "Su archivo (" + arExcel.getFileName() + ")  se ha guardado con exito.", ""));

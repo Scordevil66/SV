@@ -7,6 +7,7 @@ package com.sv.clases;
 
 import com.sv.controladores.UsuarioCT;
 import com.sv.dao.CiudadDao;
+import com.sv.dao.CorreoDao;
 import com.sv.dao.DepartamentoDao;
 import com.sv.dao.InventarioDao;
 import com.sv.dao.PedidoDao;
@@ -49,7 +50,7 @@ public class LeerArchivoDeExcel {
 //        registrarUsuarioYPedido(a, 7);
     }
 
-    public static void registrarUsuarioYPedido(String path, int idEmpresa) throws IOException, BiffException {
+    public static void registrarUsuarioYPedido(String path, int idEmpresa, int envioCorreo) throws IOException, BiffException {
 
         boolean equals1 = false, equals2 = false, equals3 = false, equals4 = false, equals5 = false, equals6 = false, equals7 = false, equals8 = false, equals9 = false, equals10 = false, equals11 = false, equals12 = false, equals13 = false, equals14 = false, equals15 = false, equals16 = false, equals17 = false, equals18 = false, equals19 = false, equals20 = false;
 
@@ -143,6 +144,7 @@ public class LeerArchivoDeExcel {
 
                     UsuarioDao usuarioDAO = new UsuarioDao();
                     PedidoDao pedidoDAO = new PedidoDao();
+                    CorreoDao correoDAO = new CorreoDao();
                     DepartamentoDao departamentoDao = new DepartamentoDao();
                     CiudadDao ciudadDao = new CiudadDao();
 
@@ -190,7 +192,7 @@ public class LeerArchivoDeExcel {
                     tempP = new Pedido();
                     temp = usuarioDAO.consultarUsuarioPorCC(usuario.getCc());
                     if (temp.getIdUsuario() > 0) {
-                        List<Pedido> ps = new ArrayList<>();        
+                        List<Pedido> ps = new ArrayList<>();
                         ps = pedidoDAO.ConsultarExistenciaPedido(temp.getIdUsuario(), pedido.getNombreHijo(), pedido.getEdadHijo());
                         if (!(ps.size() > 0)) {
                             pedidoDAO.registrarPedido(temp, pedido);
@@ -205,6 +207,10 @@ public class LeerArchivoDeExcel {
                         usuarioDAO.registrarUsuario(usuario);
                         temp = usuarioDAO.consultarUsuarioPorCC(usuario.getCc());
                         pedidoDAO.registrarPedido(temp, pedido);
+                        if (envioCorreo > 0) {
+                            correoDAO.EnviarCorreoInicioSeleccionDeJuguete(usuario);
+                        }
+
                         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, " Registro realizado satisfactoriamente!", "");
                         FacesContext.getCurrentInstance().addMessage(null, message);
                     }
@@ -329,7 +335,7 @@ public class LeerArchivoDeExcel {
 
                         inventarioDAO.registrarJuguete(inventario);
 
-                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se Registro Satisfactoriamente el "+nombre.trim()+" !", "");
+                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se Registro Satisfactoriamente el " + nombre.trim() + " !", "");
                         FacesContext.getCurrentInstance().addMessage(null, message);
                     } else {
                         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Se Intento registrar Articulos ya existentes!", "");

@@ -122,14 +122,12 @@
                                                             <div class="widget-content">
                                                                 <div class="widget big-stats-container">
                                                                     <div class="widget-content">
+
                                                                         <div class="form-group">
                                                                             <label for="inputEmp" class="col-sm-8 control-label">Nombre Empresa: </label>
                                                                             <h:selectOneMenu id="inputEmp" class="form-control "    value="#{usuarioCT.usuario.idEmpresa.idEmpresa}" >
-
                                                                                 <f:selectItem itemLabel="Seleccione empresa" itemValue="0"/>
                                                                                 <f:selectItems value="#{empresaCT.empresas}" var="emp" itemLabel="#{emp.nombre}" itemValue="#{emp.idEmpresa}"/>
-
-
                                                                             </h:selectOneMenu>
                                                                             <p:message for="inputEmp" ></p:message>
                                                                         </div>   
