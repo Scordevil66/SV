@@ -26,7 +26,7 @@ public class CorreoDao {
     
     public int EnviarCorreoVotacion(Usuario usuario){
         ClienteCorreoVotacion cliente = new ClienteCorreoVotacion();
-        return cliente.correoVotacion(int.class, usuario.getNombre(), usuario.getIdEmpresa().getNombre(), usuario.getUsuario(), usuario.getContrasena(), usuario.getEmail());
+        return cliente.correoVotacion(int.class, usuario.getNombre(),usuario.getUsuario(),usuario.getContrasena(), usuario.getIdEmpresa().getNombre() , usuario.getEmail());
     }
     
         public int EnviarConfirmacionSeleccion(Usuario usuario, Pedido pedido, Inventario inventario){
