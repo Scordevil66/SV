@@ -252,6 +252,8 @@ public class UsuarioCT implements Serializable {
 
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "El usuario ha sido registrado correctamente");
             FacesContext.getCurrentInstance().addMessage(null, message);
+            
+            enviarCorreoRegistro();
 
         } else if (resultado == 0) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Imposible registrar usuario");

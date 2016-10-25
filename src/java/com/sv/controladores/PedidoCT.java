@@ -86,7 +86,7 @@ public class PedidoCT {
         pedido = pedidoDao.ConsultarPedido(idPedido);
     }
 
-    public String editarPedido(int idUsuario, int idPedido, int idInventario, String codigo, String anio, String nombre) {
+    public String editarPedido(int idUsuario, int idPedido, int idInventario, String codigo, String anio, String nombre, String nombreHijo) {
         String link = "";
         int valor = 0;
         InventarioDao inventarioDao = new InventarioDao();
@@ -94,6 +94,7 @@ public class PedidoCT {
         Pedido ped = new Pedido();
         ped.setIdInventario(idInventario);
         ped.setIdPedido(idPedido);
+        ped.setNombreHijo(nombreHijo);
         ped.setTicket(idUsuario + codigo + idPedido + anio);
         valor = pedidoDao.EditarPedido(ped);
 
@@ -113,7 +114,8 @@ public class PedidoCT {
             usuario.setUsuario(Sesion.obtenerSesion().getUsuario());
             usuario.setEmail(Sesion.obtenerSesion().getEmail());
             pedido.setTicket(ped.getTicket());
-//            correoDao.EnviarConfirmacionSeleccion(usuario, pedido, juguete);
+            pedido.setNombreHijo(nombreHijo);
+            correoDao.EnviarConfirmacionSeleccion(usuario, pedido, juguete);
 
             Sesion.cerrarHttpSesion();
 
