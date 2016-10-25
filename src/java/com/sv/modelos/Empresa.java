@@ -43,6 +43,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "Empresa.findByUrlBanner", query = "SELECT e FROM Empresa e WHERE e.urlBanner = :urlBanner"),
     @NamedQuery(name = "Empresa.findByComite", query = "SELECT e FROM Empresa e WHERE e.comite = :comite")})
 public class Empresa implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,12 +77,17 @@ public class Empresa implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmpresa")
     private Collection<Inventario> inventarioCollection;
 
-    public Empresa() {        
+    public Empresa() {
         this.idEmpresa = 0;
     }
 
     public Empresa(Integer idEmpresa) {
         this.idEmpresa = idEmpresa;
+    }
+
+    public Empresa(Integer idEmpresa, String nombre) {
+        this.idEmpresa = idEmpresa;
+        this.nombre = nombre;
     }
 
     public Empresa(Integer idEmpresa, String nombre, String direccion, String nit, String telefono, String correo, String urlLogo, String urlBanner, int comite, Usuario idUsuario) {
@@ -96,8 +102,8 @@ public class Empresa implements Serializable {
         this.comite = comite;
         this.idUsuario = idUsuario;
     }
-    
-      public Empresa(Usuario idUsuario) {
+
+    public Empresa(Usuario idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -240,5 +246,5 @@ public class Empresa implements Serializable {
     public String toString() {
         return "com.sv.modelos.Empresa[ idEmpresa=" + idEmpresa + " ]";
     }
-    
+
 }

@@ -164,7 +164,7 @@ public class ComiteCT {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Empleados Agregados Correctamente", "");
         FacesContext.getCurrentInstance().addMessage(null, message);
         for (int i = 0; i < empleados.size(); i++) {
-            empleadosSeleccionados.add(new Usuario(empleados.get(i).getIdUsuario(), empleados.get(i).getNombre(), empleados.get(i).getCodigoEmpleado(), empleados.get(i).getCc(), empleados.get(i).getTelefono(), empleados.get(i).getEmail(), empleados.get(i).getUsuario(), empleados.get(i).getContrasena(), empleados.get(i).getOficina(), empleados.get(i).getAreaTrabajo(), new Tipousuario(empleados.get(i).getIdTipoUsuario().getIdTipoUsuario()), new Empresa(empleados.get(i).getIdEmpresa().getIdEmpresa()), new Departamento(empleados.get(i).getIdDepartamento().getIdDepartamento()), new Ciudad(empleados.get(i).getIdCiudad().getIdCiudad())));
+            empleadosSeleccionados.add(new Usuario(empleados.get(i).getIdUsuario(), empleados.get(i).getNombre(), empleados.get(i).getCodigoEmpleado(), empleados.get(i).getCc(), empleados.get(i).getTelefono(), empleados.get(i).getEmail(), empleados.get(i).getUsuario(), empleados.get(i).getContrasena(), empleados.get(i).getOficina(), empleados.get(i).getAreaTrabajo(), new Tipousuario(empleados.get(i).getIdTipoUsuario().getIdTipoUsuario()), new Empresa(empleados.get(i).getIdEmpresa().getIdEmpresa(),empleados.get(i).getIdEmpresa().getNombre()), new Departamento(empleados.get(i).getIdDepartamento().getIdDepartamento()), new Ciudad(empleados.get(i).getIdCiudad().getIdCiudad())));
 
         }
 
