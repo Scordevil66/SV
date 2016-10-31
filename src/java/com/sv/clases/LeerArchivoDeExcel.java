@@ -22,10 +22,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import jxl.Sheet;
 import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.biff.CountryCode;
 import jxl.read.biff.BiffException;
 
 /**
@@ -57,7 +60,14 @@ public class LeerArchivoDeExcel {
         File file = new File(path);
         if (file.exists() == true) {
 
-            Workbook workbook = Workbook.getWorkbook(new File(path)); //Pasamos el excel que vamos a leer
+            WorkbookSettings wbSettings = new WorkbookSettings();
+            wbSettings.setEncoding("ISO-8859-1");
+            wbSettings.setLocale(new Locale("es", "ES"));
+            wbSettings.setExcelDisplayLanguage("ES");
+            wbSettings.setExcelRegionalSettings("ES");
+            wbSettings.setCharacterSet(CountryCode.SPAIN.getValue());
+
+            Workbook workbook = Workbook.getWorkbook(new File(path), wbSettings); //Pasamos el excel que vamos a leer
             Sheet sheet = workbook.getSheet(0); //Seleccionamos la hoja que vamos a leer
             String nombre = "", cedula = "", departamento = "", ciudad = "", oficina = "", area = "", telefono = "", email = "", hijo = "", sexo = "", nombreE = "", ciudadE = "", emailE = "", telefonoE = "", fechaE = "", horaE = "", direccionE = "";
             String contrasena = "", user = "";
@@ -233,7 +243,14 @@ public class LeerArchivoDeExcel {
         File file = new File(path);
         if (file.exists() == true) {
 
-            Workbook workbook = Workbook.getWorkbook(new File(path)); //Pasamos el excel que vamos a leer
+            WorkbookSettings wbSettings = new WorkbookSettings();
+            wbSettings.setEncoding("ISO-8859-1");
+            wbSettings.setLocale(new Locale("es", "ES"));
+            wbSettings.setExcelDisplayLanguage("ES");
+            wbSettings.setExcelRegionalSettings("ES");
+            wbSettings.setCharacterSet(CountryCode.SPAIN.getValue());
+
+            Workbook workbook = Workbook.getWorkbook(new File(path), wbSettings); //Pasamos el excel que vamos a leer
             Sheet sheet = workbook.getSheet(0); //Seleccionamos la hoja que vamos a leer
             String sku = "", nombre = "", descripcion = "", genero = "", url1 = "", url2 = "", url3 = "", url4 = "", url5 = "", url6 = "", url7 = "", url8 = "", url9 = "", url10 = "", url11 = "", url12 = "", observacion = "";
             int cantidad = 0, rangoD = 0, rangoH = 0;
