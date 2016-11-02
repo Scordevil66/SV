@@ -143,7 +143,7 @@ public class LeerArchivoDeExcel {
                     usuario.setOficina(oficina.trim());
                     usuario.setEmail(email.trim());
                     usuario.getIdCiudad().setNombre(ciudad);
-                    usuario.getIdCiudad().setIdCiudad(2);
+//                    usuario.getIdCiudad().setIdCiudad(2);
                     usuario.getIdTipoUsuario().setIdTipoUsuario(4);
                     usuario.getIdEmpresa().setIdEmpresa(idEmpresa);
 
